@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Enhanced Recipe Book</title>
+    <title>Enhanced Recipe Book with Google OAuth</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,16 +36,22 @@
             border: none;
             border-radius: 4px;
         }
+        .g-signin2 {
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1>My Enhanced Recipe Book</h1>
+    <div id="signInButton">
+        <span class="g-signin2" data-onsuccess="onSignIn"></span>
+    </div>
 </div>
 
 <div id="recipes">
-    <!-- Buttons and Recipes will be added here -->
+    <!-- Recipes will be added here -->
 </div>
 
 <script>
@@ -72,38 +78,52 @@
         }
     ];
 
+    recipes.forEach(addRecipe);
+
     function addRecipe(recipe, index) {
-            var button = document.createElement("button");
-            button.className = "recipe-button";
-            button.innerText = recipe.name;
-            button.onclick = function() {
-                var recipeDetails = document.getElementById("recipe" + index);
-                var isCollapsed = recipeDetails.style.maxHeight === "0px";
-                recipeDetails.style.maxHeight = isCollapsed ? recipeDetails.scrollHeight + "px" : "0px";
-            };
-            document.getElementById("recipes").appendChild(button);
+        var button = document.createElement("button");
+        button.className = "recipe-button";
+        button.innerText = recipe.name;
+        button.onclick = function() {
+            var recipeDetails = document.getElementById("recipe" + index);
+            var isCollapsed = recipeDetails.style.maxHeight === "0px";
+            recipeDetails.style.maxHeight = isCollapsed ? recipeDetails.scrollHeight + "px" : "0px";
+        };
+        document.getElementById("recipes").appendChild(button);
 
-            var recipeDiv = document.createElement("div");
-            recipeDiv.id = "recipe" + index;
-            recipeDiv.className = "recipe";
+        var recipeDiv = document.createElement("div");
+        recipeDiv.id = "recipe" + index;
+        recipeDiv.className = "recipe";
 
-            var ingredientsList = document.createElement("ul");
-            recipe.ingredients.forEach(function(ingredient) {
-                var li = document.createElement("li");
-                li.innerText = ingredient;
-                ingredientsList.appendChild(li);
-            });
-            recipeDiv.appendChild(ingredientsList);
+        var ingredientsList = document.createElement("ul");
+        recipe.ingredients.forEach(function(ingredient) {
+            var li = document.createElement("li");
+            li.innerText = ingredient;
+            ingredientsList.appendChild(li);
+        });
+        recipeDiv.appendChild(ingredientsList);
 
-            var instructions = document.createElement("p");
-            instructions.innerText = recipe.instructions;
-            recipeDiv.appendChild(instructions);
+        var instructions = document.createElement("p");
+        instructions.innerText = recipe.instructions;
+        recipeDiv.appendChild(instructions);
 
-            document.getElementById("recipes").appendChild(recipeDiv);
-        }
+        document.getElementById("recipes").appendChild(recipeDiv);
+    }
 
-        recipes.forEach(addRecipe);
-    </script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('Google ID: ' + profile.getId());
+        console.log('Name: ' + profile.getName());
+        // Perform further actions here after successful sign-in.
+    }
 
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    }
+</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 </html>
