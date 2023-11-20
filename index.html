@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Enhanced Recipe Book</title>
     <style>
@@ -73,37 +73,37 @@
     ];
 
     function addRecipe(recipe, index) {
-        var button = document.createElement("button");
-        button.className = "recipe-button";
-        button.innerText = recipe.name;
-        button.onclick = function() {
-            var recipeDetails = document.getElementById("recipe" + index);
-            var isCollapsed = recipeDetails.style.maxHeight === "0px";
-            recipeDetails.style.maxHeight = isCollapsed ? recipeDetails.scrollHeight + "px" : "0px";
-        };
-        document.getElementById("recipes").appendChild(button);
+            var button = document.createElement("button");
+            button.className = "recipe-button";
+            button.innerText = recipe.name;
+            button.onclick = function() {
+                var recipeDetails = document.getElementById("recipe" + index);
+                var isCollapsed = recipeDetails.style.maxHeight === "0px";
+                recipeDetails.style.maxHeight = isCollapsed ? recipeDetails.scrollHeight + "px" : "0px";
+            };
+            document.getElementById("recipes").appendChild(button);
 
-        var recipeDiv = document.createElement("div");
-        recipeDiv.id = "recipe" + index;
-        recipeDiv.className = "recipe";
+            var recipeDiv = document.createElement("div");
+            recipeDiv.id = "recipe" + index;
+            recipeDiv.className = "recipe";
 
-        var ingredientsList = document.createElement("ul");
-        recipe.ingredients.forEach(function(ingredient) {
-            var li = document.createElement("li");
-            li.innerText = ingredient;
-            ingredientsList.appendChild(li);
-        });
-        recipeDiv.appendChild(ingredientsList);
+            var ingredientsList = document.createElement("ul");
+            recipe.ingredients.forEach(function(ingredient) {
+                var li = document.createElement("li");
+                li.innerText = ingredient;
+                ingredientsList.appendChild(li);
+            });
+            recipeDiv.appendChild(ingredientsList);
 
-        var instructions = document.createElement("p");
-        instructions.innerText = recipe.instructions;
-        recipeDiv.appendChild(instructions);
+            var instructions = document.createElement("p");
+            instructions.innerText = recipe.instructions;
+            recipeDiv.appendChild(instructions);
 
-        document.getElementById("recipes").appendChild(recipeDiv);
-    }
+            document.getElementById("recipes").appendChild(recipeDiv);
+        }
 
-    recipes.forEach(addRecipe);
-</script>
+        recipes.forEach(addRecipe);
+    </script>
 
 </body>
 </html>
