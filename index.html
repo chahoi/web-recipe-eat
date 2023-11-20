@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Recipe Book</title>
+    <title>Enhanced Recipe Book</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,17 +20,32 @@
             border: 1px solid #ddd;
             padding: 20px;
             margin: 20px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease-out;
+        }
+        .recipe-button {
+            display: block;
+            width: 90%;
+            padding: 10px;
+            margin: 10px auto;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h1>My Recipe Book</h1>
+    <h1>My Enhanced Recipe Book</h1>
 </div>
 
 <div id="recipes">
-    <!-- Recipes will be added here -->
+    <!-- Buttons and Recipes will be added here -->
 </div>
 
 <script>
@@ -44,16 +59,33 @@
             name: "Classic Pancakes",
             ingredients: ["Flour", "Eggs", "Milk", "Baking Powder", "Salt", "Sugar"],
             instructions: "Mix all ingredients and fry on a pan until golden brown."
+        },
+        {
+            name: "Chicken Curry",
+            ingredients: ["Chicken", "Curry Powder", "Coconut Milk", "Onions", "Garlic", "Ginger"],
+            instructions: "Cook chicken with spices, add coconut milk, and simmer until done."
+        },
+        {
+            name: "Vegetable Stir Fry",
+            ingredients: ["Mixed Vegetables", "Soy Sauce", "Garlic", "Ginger", "Olive Oil"],
+            instructions: "Stir fry vegetables with garlic and ginger, then add soy sauce."
         }
     ];
 
-    function addRecipe(recipe) {
-        var recipeDiv = document.createElement("div");
-        recipeDiv.className = "recipe";
+    function addRecipe(recipe, index) {
+        var button = document.createElement("button");
+        button.className = "recipe-button";
+        button.innerText = recipe.name;
+        button.onclick = function() {
+            var recipeDetails = document.getElementById("recipe" + index);
+            var isCollapsed = recipeDetails.style.maxHeight === "0px";
+            recipeDetails.style.maxHeight = isCollapsed ? recipeDetails.scrollHeight + "px" : "0px";
+        };
+        document.getElementById("recipes").appendChild(button);
 
-        var title = document.createElement("h2");
-        title.innerText = recipe.name;
-        recipeDiv.appendChild(title);
+        var recipeDiv = document.createElement("div");
+        recipeDiv.id = "recipe" + index;
+        recipeDiv.className = "recipe";
 
         var ingredientsList = document.createElement("ul");
         recipe.ingredients.forEach(function(ingredient) {
